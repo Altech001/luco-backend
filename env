@@ -1,0 +1,18 @@
+LIVE_API_KEY=atsk_a542caccd00f285c375cc5aff8c9183cd472e6808e08e572fca395515032dfbb67bf1527%  
+SANDBOX_API_KEY=atsk_a542caccd00f285c375cc5aff8c9183cd472e6808e08e572fca395515032dfbb67bf1527%
+
+AT_LIVE_USERNAME=Codewithaltech
+AT_LIVE_API_KEY=atsk_823e5dccbb1f23c3b33c658523b7e793e599f21a1e1df954ab9523f885ebec6b04929687
+AT_SENDER_ID=ATUpdates
+# ATUpdates
+
+CLERK_PUBLISHABLE_KEY=pk_test_Y2hhcm1lZC1yZWluZGVlci00My5jbGVyay5hY2NvdW50cy5kZXYk
+# NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_Y2hhcm1lZC1yZWluZGVlci00My5jbGVyay5hY2NvdW50cy5kZXYk
+
+CLERK_JWKS_URL=https://charmed-reindeer-43.clerk.accounts.dev/.well-known/jwks.json
+CLERK_SECRET_KEY=sk_test_tb2Jf8flPkkQcmm3GZklJdvoVKPHGNNtq4VF5go8QI
+CLERK_ISSUER=https://charmed-reindeer-43.clerk.accounts.dev
+
+
+APP_URL=https://lucosms-api.onrender.com
+DB_URL=postgres://postgres@localhost:5432/postgres
