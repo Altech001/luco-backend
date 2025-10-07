@@ -1,0 +1,11 @@
+fastapi[all]
+uvicorn
+clerk-backend-api
+requests
+python-dotenv
+sqlalchemy
+africastalking
+psycopg2-binary
+slowapi
+apscheduler
+pytz

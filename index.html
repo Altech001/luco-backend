@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clerk Authentication Demo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      #app {
+        text-align: center;
+      }
+      .user-info {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+      }
+      .error-message {
+        color: #d32f2f;
+        margin: 10px 0;
+      }
+      .loading {
+        color: #666;
+        font-style: italic;
+      }
+      #user-button, #sign-in {
+        margin: 20px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="loading">Loading...</div>
+    </div>
+
+    <script
+      async
+      crossorigin="anonymous"
+      data-clerk-publishable-key="pk_test_Y2hhcm1lZC1yZWluZGVlci00My5jbGVyay5hY2NvdW50cy5kZXYk"
+      src="https://charmed-reindeer-43.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+      type="text/javascript"
+    ></script>
+
+    <script>
+      // Function to wait for Clerk to load
+      function waitForClerk() {
+        return new Promise((resolve, reject) => {
+          const maxAttempts = 50; // Try for ~10 seconds (50 * 200ms)
+          let attempts = 0;
+
+          const checkClerk = () => {
+            if (window.Clerk && typeof window.Clerk.load === 'function') {
+              resolve(window.Clerk);
+            } else if (attempts >= maxAttempts) {
+              reject(new Error('Clerk SDK failed to load within timeout'));
+            } else {
+              attempts++;
+              setTimeout(checkClerk, 200); // Check every 200ms
+            }
+          };
+
+          checkClerk();
+        });
+      }
+
+      (async () => {
+        const appDiv = document.getElementById("app");
+        try {
+          // Wait for Clerk to be available
+          const Clerk = await waitForClerk();
+
+          // Initialize Clerk
+          await Clerk.load();
+
+          if (Clerk.user) {
+            // User is authenticated
+            const user = Clerk.user;
+            const session = Clerk.session;
+
+            // Render initial user interface
+            appDiv.innerHTML = `
+              <div id="user-button"></div>
+              <div class="user-info">
+                <h2>Welcome, ${user.firstName || 'User'}!</h2>
+                <p>Email: ${user.emailAddresses[0]?.emailAddress || 'N/A'}</p>
+                <p>User ID: ${user.id}</p>
+                <p>Session ID: ${session.id}</p>
+                <p id="api-response" class="loading">Fetching API data...</p>
+              </div>
+            `;
+
+            // Mount Clerk user button
+            const userButtonDiv = document.getElementById("user-button");
+            Clerk.mountUserButton(userButtonDiv);
+
+            try {
+              // Get session token and call protected API
+              const sessionToken = await Clerk.session.getToken();
+              const response = await fetch("http://localhost:8000/protected", {
+                headers: {
+                  Authorization: `Bearer ${sessionToken}`,
+                  "Content-Type": "application/json",
+                },
+              });
+
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+
+              const data = await response.json();
+              document.getElementById("api-response").textContent = 
+                `API Response: ${data.message}`;
+              document.getElementById("api-response").classList.remove("loading");
+            } catch (error) {
+              console.error("API Error:", error);
+              document.getElementById("api-response").textContent = 
+                `Error calling API: ${error.message}`;
+              document.getElementById("api-response").classList.add("error-message");
+              document.getElementById("api-response").classList.remove("loading");
+            }
+          } else {
+            // User is not authenticated
+            appDiv.innerHTML = `
+              <h2>Please Sign In</h2>
+              <div id="sign-in"></div>
+            `;
+            Clerk.mountSignIn(document.getElementById("sign-in"));
+          }
+        } catch (error) {
+          console.error("Initialization Error:", error);
+          appDiv.innerHTML = `
+            <div class="error-message">
+              <h2>Error</h2>
+              <p>Failed to initialize authentication: ${error.message}</p>
+            </div>
+          `;
+        }
+      })();
+    </script>
+  </body>
+</html>
