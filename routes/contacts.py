@@ -27,11 +27,11 @@ groups = APIRouter(
 
 async def get_current_user_id(request: Request, db: Session = Depends(get_db)) -> str:
     """Get user_id from your existing auth"""
-    # session = await get_current_user(request, db) =session.userid
-    session_userid = "user_2xQ4wGyrwRavEZmeadP4vd5Sx8z"
+    session = await get_current_user(request, db)
+    # session_userid = "user_2xQ4wGyrwRavEZmeadP4vd5Sx8z"
     
     # Get user from database
-    db_user = db.query(Users).filter(Users.clerk_user_id == session_userid).first()
+    db_user = db.query(Users).filter(Users.clerk_user_id == session.user_id).first()
     if not db_user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
