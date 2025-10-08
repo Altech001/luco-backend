@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 # Keep-alive settings
 PING_INTERVAL = 600
-APP_URL = os.getenv("APP_URL")
+APP_URL = "https://luco-backend.onrender.com"
 
 async def keep_alive():
     """Task that pings the app URL periodically to keep it alive."""
