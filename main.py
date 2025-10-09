@@ -87,10 +87,13 @@ app = FastAPI(
     title="Bits API"
 )
 
+origins= [
+    "https://cdd2c7e0-7ebc-4058-a057-bdf7fa3968fe-00-36xko7gklp1wn.worf.replit.dev"]
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
