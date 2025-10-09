@@ -88,7 +88,7 @@ app = FastAPI(
 )
 
 origins = [
-    "https://cdd2c7e0-7ebc-4058-a057-bdf7fa3968fe-00-36xko7gklp1wn.worf.replit.dev",
+    "https://lucosms-ui-three.vercel.app",
 ]
 
 # Add CORS middleware
