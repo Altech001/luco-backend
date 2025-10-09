@@ -90,8 +90,8 @@ app = FastAPI(
 origins = [
     "https://lucosms-ui-three.vercel.app",
     "https://lucosms-ui-three.vercel.app/",
-    "https://e259f6a8-11f4-499b-aa40-a9ce47464a4d-00-39ey66jls61xz.picard.replit.dev",
-    "https://e259f6a8-11f4-499b-aa40-a9ce47464a4d-00-39ey66jls61xz.picard.replit.dev/",
+    "https://02361079-afbb-4ee7-853f-dadf69daf62a-00-2wqcrqwl3fzqu.spock.replit.dev",
+    "https://02361079-afbb-4ee7-853f-dadf69daf62a-00-2wqcrqwl3fzqu.spock.replit.dev/",
     "*"
 ]
 
